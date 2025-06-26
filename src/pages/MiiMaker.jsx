@@ -173,7 +173,7 @@ const handleShareOnX = () => {
 };
 
   return (
-    <div className="wii-menu premium-theme">
+<div className="wii-menu">
       <div className="wii-content-container">
         <div className="wii-content-box glass-panel">
           <motion.div 
