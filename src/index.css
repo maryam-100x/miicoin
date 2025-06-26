@@ -1478,3 +1478,211 @@ input:focus-visible {
     min-width: 215px;
   }
 }
+
+/* === Mii Maker Container - 25% Size Reduction === */
+
+/* Reduce the main card container */
+.mii-maker-card {
+  max-width: 825px; /* Reduced from 1100px (25% reduction) */
+  width: 100%;
+  padding: 3rem; /* Reduced from 4rem */
+  background: var(--bg-secondary);
+  border-radius: 32px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+/* Adjust header elements proportionally */
+.mii-logo {
+  height: 45px; /* Reduced from 60px */
+  width: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.mii-title {
+  font-size: 1.65rem; /* Reduced from 2.2rem */
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.mii-subtitle {
+  font-size: 0.825rem; /* Reduced from 1.1rem */
+  color: var(--text-secondary);
+  max-width: 375px; /* Reduced from 500px */
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Reduce upload container */
+.upload-container {
+  border: 2px dashed #d1d5db;
+  border-radius: var(--border-radius);
+  padding: 1.875rem; /* Reduced from 2.5rem */
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: var(--bg-tertiary);
+  min-height: 225px; /* Reduced from 300px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Reduce upload icon container */
+.upload-icon-container {
+  position: relative;
+  width: 75px; /* Reduced from 100px */
+  height: 75px; /* Reduced from 100px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon {
+  width: 36px; /* Reduced from 48px */
+  height: 36px; /* Reduced from 48px */
+  color: var(--primary);
+}
+
+/* Adjust text sizes */
+.upload-text {
+  font-size: 0.94rem; /* Reduced from 1.25rem */
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.upload-subtext {
+  font-size: 0.75rem; /* Reduced from 1rem */
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Reduce preview image size */
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-height: 300px; /* Reduced from 400px */
+  border-radius: 12px;
+}
+
+/* Reduce Mii display frame */
+.mii-frame {
+  width: 210px; /* Reduced from 280px */
+  height: 210px; /* Reduced from 280px */
+  margin: 0 auto;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* Adjust result title */
+.result-title {
+  font-size: 1.31rem; /* Reduced from 1.75rem */
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Adjust share title */
+.share-title {
+  font-size: 0.94rem; /* Reduced from 1.25rem */
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* Reduce button sizes slightly */
+.generate-button, .secondary-button {
+  padding: 0.75rem 1.5rem; /* Reduced from 1rem 2rem */
+  font-size: 0.9rem; /* Reduced from 1rem */
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 135px; /* Reduced from 180px */
+}
+
+.save-button, .twitter-button {
+  padding: 0.65rem 1.31rem; /* Reduced from 0.875rem 1.75rem */
+  font-size: 0.9rem; /* Reduced from 1rem */
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.create-another-button {
+  padding: 0.65rem 1.31rem; /* Reduced from 0.875rem 1.75rem */
+  font-size: 0.9rem; /* Reduced from 1rem */
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  margin: 0 auto;
+}
+
+/* Responsive adjustments for smaller container */
+@media (max-width: 768px) {
+  .mii-maker-card {
+    padding: 1.125rem; /* Reduced from 1.5rem */
+  }
+  
+  .mii-title {
+    font-size: 1.35rem; /* Reduced from 1.8rem */
+  }
+  
+  .mii-subtitle {
+    font-size: 0.75rem; /* Reduced from 1rem */
+  }
+  
+  .upload-container {
+    min-height: 187px; /* Reduced from 250px */
+    padding: 1.125rem; /* Reduced from 1.5rem */
+  }
+  
+  .mii-frame {
+    width: 180px; /* Reduced from 240px */
+    height: 180px; /* Reduced from 240px */
+  }
+}
+
+@media (max-width: 480px) {
+  .mii-maker-content {
+    padding: 0.75rem; /* Reduced from 1rem */
+  }
+  
+  .mii-frame {
+    width: 150px; /* Reduced from 200px */
+    height: 150px; /* Reduced from 200px */
+  }
+}
