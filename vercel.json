@@ -1,9 +1,11 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/generate-mii.js", "use": "@vercel/node" }
+    { "src": "api/generate-mii.js", "use": "@vercel/node" },
+    { "src": "index.html", "use": "@vercel/static-build" }
   ],
   "routes": [
-    { "src": "/api/generate-mii", "dest": "/api/generate-mii.js" }
+    { "src": "/api/generate-mii", "dest": "/api/generate-mii.js" },
+    { "src": "/(.*)", "dest": "/" }
   ]
 }
