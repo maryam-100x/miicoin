@@ -3,11 +3,6 @@
   "outputDirectory": "dist",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "functions": {
-    "api/generate-mii.js": {
-      "maxDuration": 60
-    }
-  },
   "rewrites": [
     {
       "source": "/(.*)",

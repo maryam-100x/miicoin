@@ -1,3 +1,7 @@
+
+
+
+
 // src/pages/MiiMaker.jsx
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -84,104 +88,67 @@ export default function MiiMaker() {
   };
 
   const handleGenerate = async () => {
-    if (!file) {
-      setError('Please select an image first');
-      playSound('error', { pan: 0, volume: 0.7 });
-      return;
-    }
+  if (!file) {
+    setError('Please select an image first');
+    playSound('error', { pan: 0, volume: 0.7 });
+    return;
+  }
 
-    setLoading(true);
-    setProgress(0);
-    playSound('startup', { volume: 0.5 });
+  setLoading(true);
+  setProgress(0);
+  playSound('startup', { volume: 0.5 });
 
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        const newVal = prev + Math.random() * 8;
-        return newVal > 85 ? 85 : newVal;
+  const interval = setInterval(() => {
+    setProgress(prev => {
+      const newVal = prev + Math.random() * 8;
+      return newVal > 85 ? 85 : newVal;
+    });
+  }, 400);
+
+  const reader = new FileReader();
+  reader.onloadend = async () => {
+    const base64Image = reader.result.split(',')[1];
+
+    const endpoint = import.meta.env.PROD 
+      ? '/api/generate-mii' 
+      : 'http://localhost:3001/api/generate-mii';
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64Image })
       });
-    }, 400);
 
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64Image = reader.result.split(',')[1];
+      const data = await response.json();
 
-      const endpoint = import.meta.env.PROD 
-        ? '/api/generate-mii' 
-        : 'http://localhost:3001/api/generate-mii';
-
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 50000); // 50 second timeout
-
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: base64Image }),
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-
-        // Check if response is ok and handle different response types
-        if (!response.ok) {
-          let errorData;
-          const contentType = response.headers.get('content-type');
-          
-          if (contentType && contentType.includes('application/json')) {
-            errorData = await response.json();
-          } else {
-            // If it's not JSON (like HTML error page from Vercel timeout)
-            const errorText = await response.text();
-            throw new Error(`Server timeout or error (${response.status}). Please try again.`);
-          }
-          
-          throw new Error(errorData.error || `HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!data.miiImage) {
-          throw new Error(
-            data?.error?.includes("moderation") || data?.details?.includes("safety system")
-              ? "Image rejected due to safety filters. Try using a different picture."
-              : data?.error || "Failed to generate Mii."
-          );
-        }
-
-        setProgress(100);
-        setTimeout(() => {
-          setGenerated(data.miiImage);
-          playSound('success', { volume: 0.6, rate: 1.2 });
-        }, 500);
-
-      } catch (err) {
-        console.error('Mii generation error:', err);
-        
-        let errorMessage = 'Failed to generate Mii. Please try again.';
-        
-        // Handle specific error types
-        if (err.name === 'AbortError') {
-          errorMessage = 'Request timed out. The server is taking too long to respond. Please try again.';
-        } else if (err.message.includes('Failed to fetch')) {
-          errorMessage = 'Network error. Please check your connection and try again.';
-        } else if (err.message.includes('Unexpected token') || err.message.includes('not valid JSON')) {
-          errorMessage = 'Server timeout error. Please try again in a moment.';
-        } else if (err.message.includes('Server timeout')) {
-          errorMessage = 'Server is overloaded. Please wait a moment and try again.';
-        } else if (err.message) {
-          errorMessage = err.message;
-        }
-        
-        setError(errorMessage);
-        playSound('error', { volume: 0.8, rate: 0.8 });
-      } finally {
-        clearInterval(interval);
-        setLoading(false);
+      if (!response.ok || !data.miiImage) {
+        throw new Error(
+          data?.error?.includes("moderation") || data?.details?.includes("safety system")
+            ? "Image rejected due to safety filters. Try using a different picture."
+            : data?.error || "Failed to generate Mii."
+        );
       }
-    };
 
-    reader.readAsDataURL(file);
+      setProgress(100);
+      setTimeout(() => {
+        setGenerated(data.miiImage);
+        playSound('success', { volume: 0.6, rate: 1.2 });
+      }, 500);
+    } catch (err) {
+      console.error('Mii generation error:', err);
+      setError(err.message || 'Failed to generate Mii. Please try again.');
+      playSound('error', { volume: 0.8, rate: 0.8 });
+    } finally {
+      clearInterval(interval);
+      setLoading(false);
+    }
   };
+
+  reader.readAsDataURL(file);
+};
+
+
 
   const resetForm = () => {
     playSound('back', { pan: -0.3, volume: 0.5 });
@@ -203,6 +170,8 @@ export default function MiiMaker() {
     link.click();
     document.body.removeChild(link);
   };
+
+  
 
   return (
     <div className="mii-maker-container">
@@ -444,17 +413,18 @@ export default function MiiMaker() {
                     </motion.button>
                     
                     <motion.a
-                      className="twitter-button"
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                      href="https://x.com/i/communities/1922769104458613236"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <span className="button-icon" style={{ fontSize: '1.4rem', fontWeight: 'bold' }}>𝕏</span>
-                      Post in Community
-                    </motion.a>
+  className="twitter-button"
+  whileHover={{ scale: 1.05, y: -2 }}
+  whileTap={{ scale: 0.95 }}
+  href="https://x.com/i/communities/1922769104458613236"
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{ textDecoration: 'none' }}
+>
+  <span className="button-icon" style={{ fontSize: '1.4rem', fontWeight: 'bold' }}>𝕏</span>
+  Post in Community
+</motion.a>
+
                   </div>
                 </div>
 
@@ -479,3 +449,6 @@ export default function MiiMaker() {
     </div>
   );
 }
+
+
+

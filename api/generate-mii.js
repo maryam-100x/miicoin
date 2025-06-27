@@ -1,6 +1,9 @@
 // api/generate-mii.js
 
 import OpenAI, { toFile } from 'openai';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 import { v4 as uuidv4 } from 'uuid';
 
 const openai = new OpenAI({
@@ -14,32 +17,32 @@ export default async function handler(req, res) {
 
   try {
     const { image } = req.body;
-    if (!image) {
-      return res.status(400).json({ error: 'No image provided' });
-    }
+    if (!image) return res.status(400).json({ error: 'No image provided' });
 
     console.log('🎮 Vercel Mii transformation started...');
 
-    // Convert base64 to buffer directly - no file system operations
-    const imageBuffer = Buffer.from(image, 'base64');
+    // Save uploaded base64 image to temp file
     const filename = `upload-${uuidv4()}.png`;
+    const tempPath = path.join(os.tmpdir(), filename);
+    fs.writeFileSync(tempPath, Buffer.from(image, 'base64'));
 
-    const prompt = `Transform this character to look like it was created inside the Nintendo Wii Mii Maker.
+    const prompt = `
+Transform this character to look like it was created inside the Nintendo Wii Mii Maker.
 Preserve all facial features, hair, clothing, expression, and background.
-Only change the visual style to match the Mii art: glossy, cartoonish 3D with simple shapes and clean shadows.`;
-
-    // Use buffer directly instead of file system
-    const imageFile = await toFile(imageBuffer, filename, {
-      type: "image/png"
-    });
+Only change the visual style to match the Mii art: glossy, cartoonish 3D with simple shapes and clean shadows.
+`;
 
     const edited = await openai.images.edit({
       model: "gpt-image-1",
-      image: imageFile,
+      image: await toFile(fs.createReadStream(tempPath), filename, {
+        type: "image/png"
+      }),
       prompt,
       size: "1024x1024",
       quality: "high"
     });
+
+    fs.unlinkSync(tempPath); // clean up temp file
 
     const base64Image = edited.data[0].b64_json;
 
@@ -48,30 +51,10 @@ Only change the visual style to match the Mii art: glossy, cartoonish 3D with si
       miiImage: base64Image,
       message: 'Mii-style avatar generated successfully!'
     });
-
   } catch (err) {
     console.error('❌ Vercel Mii generation failed:', err);
-    
-    // Handle specific OpenAI errors
-    let errorMessage = 'Image generation error';
-    let statusCode = 500;
-
-    if (err.code === 'insufficient_quota') {
-      errorMessage = 'OpenAI API quota exceeded';
-      statusCode = 402;
-    } else if (err.code === 'invalid_api_key') {
-      errorMessage = 'Invalid OpenAI API key';
-      statusCode = 401;
-    } else if (err.code === 'rate_limit_exceeded') {
-      errorMessage = 'Rate limit exceeded';
-      statusCode = 429;
-    } else if (err.name === 'AbortError' || err.message?.includes('timeout')) {
-      errorMessage = 'Request timeout - image processing took too long';
-      statusCode = 408;
-    }
-
-    res.status(statusCode).json({
-      error: errorMessage,
+    res.status(500).json({
+      error: 'Image generation error',
       details: err.message || 'Unknown error occurred'
     });
   }
