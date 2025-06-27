@@ -1,6 +1,7 @@
 // api/generate-mii.js
 
-import OpenAI from 'openai';
+import OpenAI, { toFile } from 'openai';
+import { v4 as uuidv4 } from 'uuid';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -13,63 +14,36 @@ export default async function handler(req, res) {
 
   try {
     const { image } = req.body;
-    if (!image) return res.status(400).json({ error: 'No image provided' });
+    if (!image) {
+      return res.status(400).json({ error: 'No image provided' });
+    }
 
     console.log('🎮 Vercel Mii transformation started...');
 
-    const prompt = `
-Transform this character to look like it was created inside the Nintendo Wii Mii Maker.
+    // Convert base64 to buffer directly - no file system operations
+    const imageBuffer = Buffer.from(image, 'base64');
+    const filename = `upload-${uuidv4()}.png`;
+
+    const prompt = `Transform this character to look like it was created inside the Nintendo Wii Mii Maker.
 Preserve all facial features, hair, clothing, expression, and background.
-Only change the visual style to match the Mii art: glossy, cartoonish 3D with simple shapes and clean shadows.
-`;
+Only change the visual style to match the Mii art: glossy, cartoonish 3D with simple shapes and clean shadows.`;
 
-    // Use base64 image directly with GPT-4o vision + DALL·E prompt flow
-    const visionPrompt = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: "You are a visual-to-text expert specializing in stylized character descriptions."
-        },
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Describe this person so they can be reimagined in Mii avatar style."
-            },
-            {
-              type: "image_url",
-              image_url: {
-                url: `data:image/png;base64,${image}`,
-                detail: "high"
-              }
-            }
-          ]
-        }
-      ],
-      max_tokens: 300
+    // Use buffer directly instead of file system
+    const imageFile = await toFile(imageBuffer, filename, {
+      type: "image/png"
     });
 
-    const detailedPrompt = visionPrompt.choices[0].message.content;
-
-    const finalPrompt = `${detailedPrompt}
-
-Transform this character to look like they were created inside the Nintendo Wii Mii Maker.
-Keep the background untouched. Use glossy cartoon-like features, round face shapes, black outline eyes, and simplified shadows — all matching the official Wii Mii style.`;
-
-    const imageResponse = await openai.images.generate({
+    const edited = await openai.images.edit({
       model: "gpt-image-1",
-      prompt: finalPrompt,
-      n: 1,
+      image: imageFile,
+      prompt,
       size: "1024x1024",
-      quality: "high",
-      response_format: "b64_json" // important!
+      quality: "high"
     });
 
-    const base64Image = imageResponse.data[0].b64_json;
+    const base64Image = edited.data[0].b64_json;
 
-    console.log('✅ Mii avatar generated on Vercel');
+    console.log('✅ Vercel Mii generated successfully!');
     res.status(200).json({
       miiImage: base64Image,
       message: 'Mii-style avatar generated successfully!'
@@ -77,8 +51,27 @@ Keep the background untouched. Use glossy cartoon-like features, round face shap
 
   } catch (err) {
     console.error('❌ Vercel Mii generation failed:', err);
-    res.status(500).json({
-      error: 'Image generation error',
+    
+    // Handle specific OpenAI errors
+    let errorMessage = 'Image generation error';
+    let statusCode = 500;
+
+    if (err.code === 'insufficient_quota') {
+      errorMessage = 'OpenAI API quota exceeded';
+      statusCode = 402;
+    } else if (err.code === 'invalid_api_key') {
+      errorMessage = 'Invalid OpenAI API key';
+      statusCode = 401;
+    } else if (err.code === 'rate_limit_exceeded') {
+      errorMessage = 'Rate limit exceeded';
+      statusCode = 429;
+    } else if (err.name === 'AbortError' || err.message?.includes('timeout')) {
+      errorMessage = 'Request timeout - image processing took too long';
+      statusCode = 408;
+    }
+
+    res.status(statusCode).json({
+      error: errorMessage,
       details: err.message || 'Unknown error occurred'
     });
   }
