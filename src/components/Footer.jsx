@@ -19,17 +19,28 @@ export default function Footer() {
     day: 'numeric',
   }).replace(',', '');
 
+  const handleHomeClick = (e) => {
+  e.preventDefault();
+  const sound = new Audio('/home.wav');
+  sound.volume = 0.2; // adjust as needed
+  sound.play().catch(() => {});
+  setTimeout(() => {
+    window.location.href = '/menu';
+  }, 800);
+};
+
+
   return (
     <div className="wii-footer">
       <div className="footer-left">
-  <a
-    href="/menu"
-    className="footer-bubble wii-hover-effect"
-  >
-    <span className="footer-label">Home</span>
-  </a>
-</div>
-
+        <a
+          href="/menu"
+          className="footer-bubble wii-hover-effect"
+          onClick={handleHomeClick}
+        >
+          <span className="footer-label">Home</span>
+        </a>
+      </div>
 
       <div className="footer-center">
         <div className="clock">{formattedTime}</div>

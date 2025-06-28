@@ -11,13 +11,24 @@ export default function App() {
   const [showMenu, setShowMenu] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
 
+  useEffect(() => {
+    const handleClick = () => {
+      const clickSound = new Audio('/select.wav');
+      clickSound.volume = 0.4; // Set volume to 20% (adjust as needed)
+      clickSound.play().catch(() => {});
+    };
+
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
+
   const handleFadeOut = () => {
     setFading(true);
     setMenuVisible(true);
-
     const menuMusic = new Howl({ src: ['/wiimenu.mp3'], volume: 0.4, loop: true });
     menuMusic.play();
-
     setTimeout(() => {
       setShowMenu(true);
       setFading(false);
