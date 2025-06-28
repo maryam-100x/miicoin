@@ -42,11 +42,23 @@ export default async function handler(req, res) {
     tempPath = path.join(os.tmpdir(), filename);
     fs.writeFileSync(tempPath, Buffer.from(image, 'base64'));
 
-    const prompt = `
-Transform this character to look like it was created inside the Nintendo Wii Mii Maker.
-Preserve all facial features, hair, clothing, expression, and background.
-Only change the visual style to match the Mii art: glossy, cartoonish 3D with simple shapes and clean shadows.
-`;
+    const prompt = `Turn the character in this image into a Mii from the original Nintendo Wii.
+
+Use only the official Wii Mii Maker parts (face, hair, eyes, mouth, etc.) — no custom elements.
+
+Match the character's key features as closely as possible (hairstyle, skin tone, expression, etc.), but only using Wii Mii presets.
+
+Render the Mii in the 3D glossy style used in actual Wii gameplay:
+
+Floating head with no neck
+
+Shiny, gradient lighting
+
+Simple arms and legs with Wii-style shading
+
+Plastic texture and slight body shadow
+
+Keep the background from the original image intact. Only the character should be transformed.`;
 
     const edited = await openai.images.edit({
       model: "gpt-image-1",
