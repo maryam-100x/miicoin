@@ -1,12 +1,9 @@
-
-
-
-
 // src/pages/MiiMaker.jsx
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import { Howl } from 'howler';
+import { Link } from 'react-router-dom';
 
 export default function MiiMaker() {
   const [file, setFile] = useState(null);
@@ -197,7 +194,7 @@ export default function MiiMaker() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Mii Avatar Generator
+              Mii Avatar Generator (AI)
             </motion.h1>
             <motion.p
               className="mii-subtitle"
@@ -224,6 +221,7 @@ export default function MiiMaker() {
               </motion.div>
             )}
           </AnimatePresence>
+          
 
           {/* Main Content Flow */}
           <div className="mii-maker-flow">
@@ -297,6 +295,7 @@ export default function MiiMaker() {
                   )}
                 </motion.div>
 
+
                 {/* Loading State */}
                 {loading && (
                   <motion.div 
@@ -360,6 +359,10 @@ export default function MiiMaker() {
                     >
                       Start Over
                     </motion.button>
+
+                                 <Link to="/miimaker2" className="manual-mii-button">
+  Or, create a Mii manually
+</Link>
                   </motion.div>
                 )}
               </>
@@ -410,6 +413,7 @@ export default function MiiMaker() {
                         </svg>
                       </span>
                       Save Mii
+                      
                     </motion.button>
                     
                     <motion.a

@@ -4,7 +4,8 @@ import HealthWarning from './components/HealthWarning';
 import ChannelButton from './components/WiiMenu/ChannelButton';
 import { Howl } from 'howler';
 import WiiMenu from './components/WiiMenu/WiiMenu';
-import MiiMaker from './pages/MiiMaker'; 
+import MiiMaker from './pages/MiiMaker';
+import MiiMakerManual from './pages/MiiMakerManual';
 
 export default function App() {
   const [fading, setFading] = useState(false);
@@ -63,6 +64,7 @@ export default function App() {
         />
         <Route path="/menu" element={<WiiMenu />} />
         <Route path="/miimaker" element={<MiiMaker />} />
+        <Route path="/miimaker2" element={<MiiMakerManual />} />
       </Routes>
     </Router>
   );

@@ -1676,3 +1676,74 @@ input:focus-visible {
     height: 150px;
   }
 }
+
+.manual-mii-button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.22);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-width: 210px;
+  margin: 1.2rem auto 0 auto; /* space above, center horizontally */
+}
+
+.manual-mii-button .button-icon {
+  display: flex;
+  align-items: center;
+  margin-right: 0.4rem;
+}
+
+.manual-mii-button:hover,
+.manual-mii-button:focus-visible {
+  background: linear-gradient(90deg, var(--primary-light), var(--primary));
+  box-shadow: 0 8px 24px rgba(0, 102, 204, 0.24);
+  outline: none;
+  transform: translateY(-2px) scale(1.03);
+}
+
+@media (max-width: 480px) {
+  .manual-mii-button {
+    width: 100%;
+    min-width: unset;
+    font-size: 0.95rem;
+    padding: 0.85rem 0.5rem;
+  }
+}
+
+.manual-mii-button,
+.manual-mii-button * {
+  text-decoration: none !important;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.manual-mii-button {
+  font-size: 0.95rem;
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+
