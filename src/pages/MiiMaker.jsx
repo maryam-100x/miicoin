@@ -359,10 +359,6 @@ export default function MiiMaker() {
                     >
                       Start Over
                     </motion.button>
-
-                                 <Link to="/miimaker2" className="manual-mii-button">
-  Or, create a Mii manually
-</Link>
                   </motion.div>
                 )}
               </>
