@@ -57,12 +57,12 @@ export default function Footer() {
           <span style={{ fontSize: '1.8rem' }}>𝕏</span>
         </a>
         <a
-          href="https://pump.fun/board"
+          href="https://letsbonk.fun"
           target="_blank"
           rel="noopener noreferrer"
           className="footer-bubble wii-hover-effect"
         >
-          <img src="/pumpfun.png" alt="Pump.fun" />
+          <img src="/bonk_fun.png" alt="letsbonk.fun" />
           <span className="footer-label">MiiCoin</span>
         </a>
       </div>
