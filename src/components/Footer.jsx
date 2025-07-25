@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { CONTRACT_ADDRESS } from '../contract'; // ✅ correct relative path
 
 export default function Footer() {
   const [time, setTime] = useState(new Date());
@@ -20,15 +21,14 @@ export default function Footer() {
   }).replace(',', '');
 
   const handleHomeClick = (e) => {
-  e.preventDefault();
-  const sound = new Audio('/home.wav');
-  sound.volume = 0.2; // adjust as needed
-  sound.play().catch(() => {});
-  setTimeout(() => {
-    window.location.href = '/menu';
-  }, 800);
-};
-
+    e.preventDefault();
+    const sound = new Audio('/home.wav');
+    sound.volume = 0.2;
+    sound.play().catch(() => {});
+    setTimeout(() => {
+      window.location.href = '/menu';
+    }, 800);
+  };
 
   return (
     <div className="wii-footer">
@@ -49,7 +49,7 @@ export default function Footer() {
 
       <div className="footer-right" style={{ display: 'flex', gap: '1rem' }}>
         <a
-          href="https://x.com/miicoin"
+          href="https://x.com/"
           target="_blank"
           rel="noopener noreferrer"
           className="footer-bubble wii-hover-effect"
@@ -57,7 +57,7 @@ export default function Footer() {
           <span style={{ fontSize: '1.8rem' }}>𝕏</span>
         </a>
         <a
-          href="https://letsbonk.fun"
+          href={`https://letsbonk.fun/token/${CONTRACT_ADDRESS}`} // ✅ dynamic URL
           target="_blank"
           rel="noopener noreferrer"
           className="footer-bubble wii-hover-effect"
