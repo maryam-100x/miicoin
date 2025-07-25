@@ -1273,6 +1273,7 @@ input:focus-visible {
   position: relative;
   min-height: 100vh;
   min-height: 100dvh;
+    overflow-y: auto;
 }
 
 .wii-content-container {
@@ -1471,16 +1472,21 @@ input:focus-visible {
 @media (max-width: 480px) {
   .wii-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(12, 1fr); /* 12 rows for single column */
-    max-width: 300px;
+    grid-template-rows: auto;
+    max-width: 50%;
+    padding: 1.5rem 1rem;
+    gap: 1.25rem;
     margin-bottom: var(--footer-height);
   }
 
   .wii-channel {
-    max-width: 270px;
-    min-width: 215px;
+    max-width: 100%;
+    width: 100%;
+    min-width: unset;
+    aspect-ratio: 16 / 9;
   }
 }
+
 
 .mii-maker-card {
   max-width: 825px;
