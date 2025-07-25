@@ -1424,16 +1424,20 @@ input:focus-visible {
 /* === Responsive Adjustments === */
 @media (max-width: 1400px) {
   .wii-grid {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    max-width: 1360px; /* Reduced from 1600px */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    max-width: 800px;
+    height: calc(100vh - var(--footer-height));
+    align-content: center;
+    justify-content: center;
   }
 
   .wii-channel {
-    max-width: 300px; /* Reduced from 350px */
-    min-width: 255px;
+    max-width: 360px;
+    min-width: 280px;
   }
 }
+
 
 @media (max-width: 1024px) {
   .wii-grid {
@@ -1764,3 +1768,4 @@ input:focus-visible {
 * {
   caret-color: transparent !important;
 }
+
