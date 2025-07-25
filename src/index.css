@@ -1473,19 +1473,31 @@ input:focus-visible {
   .wii-grid {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    max-width: 50%;
-    padding: 1.5rem 1rem;
-    gap: 1.25rem;
+    padding: 0.5rem 0.5rem;
+    gap: 1rem; /* 👈 tighter spacing between channels */
+    justify-content: center;
     margin-bottom: var(--footer-height);
   }
 
   .wii-channel {
-    max-width: 100%;
+    max-width: 200px; /* 👈 smaller channel width */
     width: 100%;
-    min-width: unset;
     aspect-ratio: 16 / 9;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+    transform: scale(0.5); /* 👈 smaller shrink */
+    margin: 0 auto;
+     margin-top: -7rem;
+  margin-bottom: 0.15rem;
+  }
+
+  .wii-channel-icon {
+    max-width: 70%;
+    max-height: 70%;
   }
 }
+
+
 
 
 .mii-maker-card {
