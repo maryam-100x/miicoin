@@ -1474,7 +1474,7 @@ input:focus-visible {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     padding: 0.5rem 0.5rem;
-    gap: 1rem; /* 👈 tighter spacing between channels */
+    gap: 0.1rem; /* 👈 tighter spacing between channels */
     justify-content: center;
     margin-bottom: var(--footer-height);
   }
@@ -1487,8 +1487,8 @@ input:focus-visible {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
     transform: scale(0.5); /* 👈 smaller shrink */
     margin: 0 auto;
-     margin-top: -7rem;
-  margin-bottom: 0.15rem;
+     margin-top: -5rem;
+  margin-bottom: 0rem;
   }
 
   .wii-channel-icon {
@@ -1497,6 +1497,39 @@ input:focus-visible {
   }
 }
 
+@media (max-width: 480px) {
+  .wii-footer {
+    padding: 0.5rem 1rem;
+    height: auto;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+  }
+
+  .wii-footer .footer-center .clock {
+    font-size: 1.4rem;
+  }
+
+  .wii-footer .footer-center .date {
+    font-size: 0.75rem;
+  }
+
+  .wii-footer .footer-bubble {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .wii-footer .footer-right {
+    gap: 0.5rem;
+  }
+
+  .wii-footer .footer-right img {
+    width: 20px;
+    height: 20px;
+  }
+}
 
 
 
