@@ -6,7 +6,7 @@ export default function ChannelButton({ icon, onClick }) {
   whileHover={{ scale: 1.04 }}
   whileTap={{ scale: 0.97 }}
   onClick={onClick}
-  className="wii-channel wii-hover-effect"  // ← ADD this class
+  className="wii-channel wii-hover-effect"  
 >
 
       <img src={icon} alt="" className="wii-channel-icon" />

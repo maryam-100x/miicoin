@@ -1377,16 +1377,12 @@ input:focus-visible {
 /* === Updated Channel Grid - 4x3 Layout with Slightly Smaller Channels (15% reduction) === */
 .wii-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Always 4 columns */
-  grid-template-rows: repeat(3, 1fr);     /* Always 3 rows */
-  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2.5rem;
   justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  max-width: 1700px; /* Reduced from 2000px */
-  width: 100%;
-  height: calc(100vh - var(--footer-height) - 4rem); /* Fill available height */
-  margin: 0 auto;
+  align-content: center;
+  height: calc(100vh - var(--footer-height));
   margin-bottom: var(--footer-height);
 }
 
@@ -1746,4 +1742,25 @@ input:focus-visible {
   transition: color 0.2s ease;
 }
 
+/* ===== Override: center the 4 channels & make them bigger ===== */
 
+.wii-menu {
+  /* center the grid vertically */
+  justify-content: center;
+}
+
+.wii-grid {
+  /* fill from top to just above the footer, then center its one row of items */
+  height: calc(100vh - var(--footer-height) - 4rem);
+  align-content: center;
+}
+
+.wii-channel {
+  /* bump up the channel size */
+  max-width: 480px;
+  min-width: 300px;
+}
+
+* {
+  caret-color: transparent !important;
+}
