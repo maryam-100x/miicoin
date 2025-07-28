@@ -416,7 +416,7 @@ export default function MiiMaker() {
   className="twitter-button"
   whileHover={{ scale: 1.05, y: -2 }}
   whileTap={{ scale: 0.95 }}
-  href="https://x.com/i/communities/1922769104458613236"
+  href="https://x.com/i/communities/1949866818450932120"
   target="_blank"
   rel="noopener noreferrer"
   style={{ textDecoration: 'none' }}
