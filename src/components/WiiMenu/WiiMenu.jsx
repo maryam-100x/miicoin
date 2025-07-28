@@ -23,7 +23,7 @@ export default function WiiMenu() {
       icon: '/xcom.png',
       onClick: () =>
         window.open(
-          'https://x.com/i/communities/1934339572261175545',
+          'https://x.com/i/communities/1949866818450932120',
           '_blank'
         ),
     },
