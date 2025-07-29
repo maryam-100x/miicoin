@@ -194,7 +194,7 @@ export default function MiiMaker() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Mii Avatar Generator (AI)
+              Mii Avatar Generator (AI) - Currently deactivated.
             </motion.h1>
             <motion.p
               className="mii-subtitle"
