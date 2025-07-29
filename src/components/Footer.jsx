@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
-import { CONTRACT_ADDRESS } from '../contract'; // ✅ correct relative path
+import { Howler } from 'howler'; // ✅ add this
+import { CONTRACT_ADDRESS } from '../contract';
+import { FiVolume2, FiVolumeX } from 'react-icons/fi';
+
 
 export default function Footer() {
   const [time, setTime] = useState(new Date());
+  const [isMuted, setIsMuted] = useState(false); // ✅ mute state
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
@@ -30,17 +34,33 @@ export default function Footer() {
     }, 800);
   };
 
+  const toggleMute = () => {
+    const newMute = !isMuted;
+    setIsMuted(newMute);
+    Howler.mute(newMute); // ✅ global mute toggle
+  };
+
   return (
     <div className="wii-footer">
-      <div className="footer-left">
-        <a
-          href="/menu"
-          className="footer-bubble wii-hover-effect"
-          onClick={handleHomeClick}
-        >
-          <span className="footer-label">Home</span>
-        </a>
-      </div>
+      <div className="footer-left" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+  <a
+    href="/menu"
+    className="footer-bubble wii-hover-effect"
+    onClick={handleHomeClick}
+  >
+    <span className="footer-label">Home</span>
+  </a>
+
+  <button
+    onClick={toggleMute}
+    className="footer-bubble wii-hover-effect"
+    title={isMuted ? 'Unmute Music' : 'Mute Music'}
+    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.3rem' }}
+  >
+    {isMuted ? <FiVolumeX size={20} /> : <FiVolume2 size={20} />}
+  </button>
+</div>
+
 
       <div className="footer-center">
         <div className="clock">{formattedTime}</div>
@@ -57,7 +77,7 @@ export default function Footer() {
           <span style={{ fontSize: '1.8rem' }}>𝕏</span>
         </a>
         <a
-          href={`https://letsbonk.fun/token/${CONTRACT_ADDRESS}`} // ✅ dynamic URL
+          href={`https://letsbonk.fun/token/${CONTRACT_ADDRESS}`}
           target="_blank"
           rel="noopener noreferrer"
           className="footer-bubble wii-hover-effect"

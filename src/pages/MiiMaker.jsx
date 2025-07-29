@@ -16,6 +16,20 @@ export default function MiiMaker() {
   const fileInputRef = useRef(null);
   const dropZoneRef = useRef(null);
 
+const menuMusicRef = useRef(null);
+
+useEffect(() => {
+  if (!menuMusicRef.current) {
+    menuMusicRef.current = new Howl({
+      src: ['/miieditor.mp3'],
+      volume: 0.2,
+      loop: true
+    });
+    menuMusicRef.current.play();
+  }
+}, []);
+
+
   // Clean up object URLs
   useEffect(() => {
     return () => {

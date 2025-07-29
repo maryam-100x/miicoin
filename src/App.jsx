@@ -1,3 +1,5 @@
+
+
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HealthWarning from './components/HealthWarning';
@@ -27,7 +29,7 @@ export default function App() {
   const handleFadeOut = () => {
     setFading(true);
     setMenuVisible(true);
-    const menuMusic = new Howl({ src: ['/wiimenu.mp3'], volume: 0.4, loop: true });
+    const menuMusic = new Howl({ src: ['/wiimenu.mp3'], volume: 0, loop: true });
     menuMusic.play();
     setTimeout(() => {
       setShowMenu(true);

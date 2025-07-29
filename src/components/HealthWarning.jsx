@@ -11,7 +11,7 @@ export default function HealthWarning({ onFinish }) {
         setReady(true);
         setFadeOut(true); // start fade-out animation
 
-        const menuMusic = new Howl({ src: ['/wiimenu.mp3'], volume: 0.4, loop: true });
+        const menuMusic = new Howl({ src: ['/wiimenu.mp3'], volume: 0, loop: true });
         menuMusic.play();
 
         setTimeout(() => {
